@@ -32,10 +32,8 @@ To facilitate easy compilation, a tsconfig.json file is included in the source r
 ### Clone the Repository:
 
 <prev>
-{
-    git clone https://github.com/your-username/your-compiler-project.git
-    cd your-compiler-project
-}
+git clone https://github.com/your-username/your-compiler-project.git
+cd your-compiler-project
 </prev>
 
 This command clones the repository to your local machine and navigates to the project directory.
@@ -43,9 +41,7 @@ This command clones the repository to your local machine and navigates to the pr
 ### Install Dependencies:
 
 <prev>
-{
-    npm install
-}
+npm install
 </prev>
 
 Install the necessary dependencies required for the compiler project.
@@ -53,9 +49,7 @@ Install the necessary dependencies required for the compiler project.
 ### Compile the TypeScript Code:
 
 <prev>
-{
-    tsc
-}
+tsc
 </prev>
 
 Compile the TypeScript source files into JavaScript using the configurations specified in tsconfig.json. The compiled files will be placed in the "dist" directory.
@@ -67,8 +61,6 @@ Execute the compiled JavaScript files using Node.js or your preferred JavaScript
 Example:
 
 <prev>
-{
-    node dist/compiler.js
-}
+node dist/compiler.js
 </prev>
 This step runs the compiled compiler code. Adjust the filename accordingly based on your project.
