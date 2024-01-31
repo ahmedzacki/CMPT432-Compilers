@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "rootDir": "src",
-    "outDir": "dist",
+    "target": "ES2016",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "sourceMap": true,
-    "extendedDiagnostics": true
+    "extendedDiagnostics": true,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "strict": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true
   },
 
-  "include": ["src/**/*.ts"]
+  "include": ["./src/**/*.ts"]
 }
