@@ -1,3 +1,5 @@
+import { Lexer } from "./Lexer";
+
 const textInput = document.getElementById("textInput") as HTMLTextAreaElement;
 const textOutput = document.getElementById("textOutput") as HTMLTextAreaElement;
 const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement;
@@ -7,7 +9,8 @@ textOutput.readOnly = true;
 
 submitBtn?.addEventListener("click", (event) => {
   event.preventDefault();
-  textOutput.value = textInput.value;
+  const myLexer = new Lexer(textInput.value);
+  textOutput.value = myLexer;
   if (resetBtn) resetBtn.style.display = "inline-block";
 });
 
