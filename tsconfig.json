@@ -10,7 +10,8 @@
     "strict": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "module": "es6"
   },
 
   "include": ["./src/**/*.ts"]
