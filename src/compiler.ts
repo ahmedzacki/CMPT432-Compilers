@@ -116,7 +116,7 @@ class Lexer {
       case "if":
         return TokenType.IFSTATEMENT;
       default:
-        return TokenType.IDENTIFIER;
+        return TokenType.ID;
     }
   }
 
@@ -137,7 +137,7 @@ enum TokenType {
   TYPE_INT,
   TYPE_STRING,
   BOOLVAL,
-  IDENTIFIER,
+  ID,
   PLUS,
   EOP,
   ERROR,

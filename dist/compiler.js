@@ -112,7 +112,7 @@ class Lexer {
             case "if":
                 return TokenType.IFSTATEMENT;
             default:
-                return TokenType.IDENTIFIER;
+                return TokenType.ID;
         }
     }
     printLexingInfo() {
@@ -131,7 +131,7 @@ var TokenType;
     TokenType[TokenType["TYPE_INT"] = 3] = "TYPE_INT";
     TokenType[TokenType["TYPE_STRING"] = 4] = "TYPE_STRING";
     TokenType[TokenType["BOOLVAL"] = 5] = "BOOLVAL";
-    TokenType[TokenType["IDENTIFIER"] = 6] = "IDENTIFIER";
+    TokenType[TokenType["ID"] = 6] = "ID";
     TokenType[TokenType["PLUS"] = 7] = "PLUS";
     TokenType[TokenType["EOP"] = 8] = "EOP";
     TokenType[TokenType["ERROR"] = 9] = "ERROR";
