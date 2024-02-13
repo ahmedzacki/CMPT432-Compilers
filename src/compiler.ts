@@ -16,13 +16,18 @@ class Lexer {
         this.handleWhitespace(char);
       } else if (this.input.startsWith("/*", this.currentPos)) {
         this.skipComment();
+      } else if (/[0-9]/.test(char)) {
+        // Check if char is a digit
+        this.addToken(TokenType.DIGIT, char);
+        this.column++;
       } else if (this.isKeywordOrIdentifier()) {
-        // Additional check to properly handle keywords and identifiers
+        // No changes needed here, already handles IDs correctly
       } else {
         this.handleToken(char);
       }
       this.currentPos++;
     }
+    this.printLexingInfo();
     return this.tokens;
   }
 
@@ -78,14 +83,28 @@ class Lexer {
       case "}":
         this.addToken(TokenType.CLOSE_BLOCK, char);
         break;
-      case "$":
+      case "$": {
         this.addToken(TokenType.EOP, char);
+        this.errorCounter = 0;
         break;
+      }
       case "+":
-        this.addToken(TokenType.PLUS, char);
+        this.addToken(TokenType.ADDITION_OP, char);
+        break;
+      case "-":
+        this.addToken(TokenType.MINUS_OP, char);
         break;
       case "=":
         this.addToken(TokenType.ASSIGN_OP, char);
+        break;
+      case '"':
+        this.addToken(TokenType.QUOTE, char);
+        break;
+      case "(":
+        this.addToken(TokenType.OPENING_PARENTHESIS, char);
+        break;
+      case ")":
+        this.addToken(TokenType.CLOSING_PARENTHESIS, char);
         break;
       default:
         this.errorCounter++;
@@ -115,6 +134,15 @@ class Lexer {
         return TokenType.BOOLVAL;
       case "if":
         return TokenType.IFSTATEMENT;
+      case "print":
+        return TokenType.PRINT_STATEMENT;
+      case "while":
+        return TokenType.WHILE;
+      case "!=":
+        return TokenType.INEQUALITY_OP;
+      case "==":
+        return TokenType.EQUALITY_OP;
+
       default:
         return TokenType.ID;
     }
@@ -133,15 +161,24 @@ class Lexer {
 enum TokenType {
   OPEN_BLOCK,
   CLOSE_BLOCK,
+  OPENING_PARENTHESIS,
+  CLOSING_PARENTHESIS,
   ASSIGN_OP,
   TYPE_INT,
   TYPE_STRING,
   BOOLVAL,
   ID,
-  PLUS,
+  ADDITION_OP,
+  MINUS_OP,
   EOP,
   ERROR,
   IFSTATEMENT,
+  DIGIT,
+  PRINT_STATEMENT,
+  QUOTE,
+  WHILE,
+  INEQUALITY_OP,
+  EQUALITY_OP,
 }
 
 class Token {

@@ -18,6 +18,10 @@ class Lexer {
             else if (this.input.startsWith("/*", this.currentPos)) {
                 this.skipComment();
             }
+            else if (/[0-9]/.test(char)) {
+                this.addToken(TokenType.DIGIT, char);
+                this.column++;
+            }
             else if (this.isKeywordOrIdentifier()) {
             }
             else {
@@ -25,6 +29,7 @@ class Lexer {
             }
             this.currentPos++;
         }
+        this.printLexingInfo();
         return this.tokens;
     }
     handleWhitespace(char) {
@@ -75,14 +80,28 @@ class Lexer {
             case "}":
                 this.addToken(TokenType.CLOSE_BLOCK, char);
                 break;
-            case "$":
+            case "$": {
                 this.addToken(TokenType.EOP, char);
+                this.errorCounter = 0;
                 break;
+            }
             case "+":
-                this.addToken(TokenType.PLUS, char);
+                this.addToken(TokenType.ADDITION_OP, char);
+                break;
+            case "-":
+                this.addToken(TokenType.MINUS_OP, char);
                 break;
             case "=":
                 this.addToken(TokenType.ASSIGN_OP, char);
+                break;
+            case '"':
+                this.addToken(TokenType.QUOTE, char);
+                break;
+            case "(":
+                this.addToken(TokenType.OPENING_PARENTHESIS, char);
+                break;
+            case ")":
+                this.addToken(TokenType.CLOSING_PARENTHESIS, char);
                 break;
             default:
                 this.errorCounter++;
@@ -111,6 +130,14 @@ class Lexer {
                 return TokenType.BOOLVAL;
             case "if":
                 return TokenType.IFSTATEMENT;
+            case "print":
+                return TokenType.PRINT_STATEMENT;
+            case "while":
+                return TokenType.WHILE;
+            case "!=":
+                return TokenType.INEQUALITY_OP;
+            case "==":
+                return TokenType.EQUALITY_OP;
             default:
                 return TokenType.ID;
         }
@@ -127,15 +154,24 @@ var TokenType;
 (function (TokenType) {
     TokenType[TokenType["OPEN_BLOCK"] = 0] = "OPEN_BLOCK";
     TokenType[TokenType["CLOSE_BLOCK"] = 1] = "CLOSE_BLOCK";
-    TokenType[TokenType["ASSIGN_OP"] = 2] = "ASSIGN_OP";
-    TokenType[TokenType["TYPE_INT"] = 3] = "TYPE_INT";
-    TokenType[TokenType["TYPE_STRING"] = 4] = "TYPE_STRING";
-    TokenType[TokenType["BOOLVAL"] = 5] = "BOOLVAL";
-    TokenType[TokenType["ID"] = 6] = "ID";
-    TokenType[TokenType["PLUS"] = 7] = "PLUS";
-    TokenType[TokenType["EOP"] = 8] = "EOP";
-    TokenType[TokenType["ERROR"] = 9] = "ERROR";
-    TokenType[TokenType["IFSTATEMENT"] = 10] = "IFSTATEMENT";
+    TokenType[TokenType["OPENING_PARENTHESIS"] = 2] = "OPENING_PARENTHESIS";
+    TokenType[TokenType["CLOSING_PARENTHESIS"] = 3] = "CLOSING_PARENTHESIS";
+    TokenType[TokenType["ASSIGN_OP"] = 4] = "ASSIGN_OP";
+    TokenType[TokenType["TYPE_INT"] = 5] = "TYPE_INT";
+    TokenType[TokenType["TYPE_STRING"] = 6] = "TYPE_STRING";
+    TokenType[TokenType["BOOLVAL"] = 7] = "BOOLVAL";
+    TokenType[TokenType["ID"] = 8] = "ID";
+    TokenType[TokenType["ADDITION_OP"] = 9] = "ADDITION_OP";
+    TokenType[TokenType["MINUS_OP"] = 10] = "MINUS_OP";
+    TokenType[TokenType["EOP"] = 11] = "EOP";
+    TokenType[TokenType["ERROR"] = 12] = "ERROR";
+    TokenType[TokenType["IFSTATEMENT"] = 13] = "IFSTATEMENT";
+    TokenType[TokenType["DIGIT"] = 14] = "DIGIT";
+    TokenType[TokenType["PRINT_STATEMENT"] = 15] = "PRINT_STATEMENT";
+    TokenType[TokenType["QUOTE"] = 16] = "QUOTE";
+    TokenType[TokenType["WHILE"] = 17] = "WHILE";
+    TokenType[TokenType["INEQUALITY_OP"] = 18] = "INEQUALITY_OP";
+    TokenType[TokenType["EQUALITY_OP"] = 19] = "EQUALITY_OP";
 })(TokenType || (TokenType = {}));
 class Token {
     constructor(type, value, line, column) {
