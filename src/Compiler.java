@@ -7,7 +7,14 @@ public class Compiler {
     public static void main(String[] args) throws Exception {
         System.out.println("Compiler started.....");
 
-        String filePath = "../input.txt";
+        if (args.length < 1) {
+            System.err.println("Usage: java Compiler <testcase filename>");
+            return;
+        }
+
+        String testcaseFolder = "testcases"; 
+        String fileName = args[0]; // Reading file name from command line argument
+        String filePath = "../" + testcaseFolder + "/" + fileName; // Constructing the file path for the test case
 
         int errorCount = 0;
         int programCount = 1;
@@ -40,9 +47,5 @@ public class Compiler {
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
         }
-
     }
-
 }
-
-    
