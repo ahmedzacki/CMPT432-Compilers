@@ -53,8 +53,8 @@ class Lexer {
             case '+':
                 addToken(TokenType.PLUS);
                 break;
-            case ';':
-                addToken(TokenType.SEMICOLON);
+            case '$':
+                addToken(TokenType.EOP);
                 break;
             case '*':
                 addToken(TokenType.STAR);
@@ -71,15 +71,27 @@ class Lexer {
             case '>':
                 addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
                 break;
+                // handle comments here
             case '/':
-                if (match('/')) {
-                    // A comment goes until the end of the line.
-                    while (getNextChar() != '\n' && !isAtEnd())
-                        moveToNextChar();
+                if (match('*')) {
+                    // Block comment. Keep scanning until we find the closing "*/"
+                    while (!(getNextChar() == '*' && peekNext() == '/') && !isAtEnd()) {
+                        if (getNextChar() == '\n') {
+                            line++; // Increment line count for newlines within the comment
+                        }
+                        moveToNextChar(); // Move to the next character
+                    }
+
+                    // Once we find the closing "*/", consume the '*' and '/'
+                    if (!isAtEnd()) {
+                        moveToNextChar(); // Consume '*'
+                        moveToNextChar(); // Consume '/'
+                    }
                 } else {
                     addToken(TokenType.SLASH);
                 }
                 break;
+
             case ' ':
             case '\r':
             case '\t':
@@ -101,10 +113,9 @@ class Lexer {
                     identifier();
 
                 } else {
-                    handleError(start, current, line, "Unexpected token");
+                    addToken(TokenType.ERROR);
                     break;
                 }
-
         }
     }
 
@@ -128,9 +139,8 @@ class Lexer {
     private void identifier() {
         while (isAlphaNumeric(getNextChar())) moveToNextChar(); // Scans the whole identifier/keyword
 
-        // Initially assumes the whole text is an identifier
+        // Initially assuming the whole text is an identifier
         String text = source.substring(start, current);
-        System.out.println(text + " " + start + " " + current);
         TokenType type = keywords.get(text);
 
         if (type == null) { // If not a keyword, process as a complex identifier
@@ -154,17 +164,12 @@ class Lexer {
                         // set flag to true
                         flag = true;
                         // we know we are at the beggining of a number 
-                        System.out.println("window: "+window + " Start: " + start + " tempCurrent: " + tempCurrent + " Current: " + current );
-
-                        // Adjust the scanner state to process the number
-                        int temp = current;
+                        int temp = current; // reserving the current position for later use
                         current = start; // Point 'current' to the start of the number
-                        // start = tempCurrent;
                         number(); // Process the number
                         start = current;
                         tempCurrent = current;
                         current = temp;
-                        System.out.println("window: "+window + " Start: " + start + " tempCurrent: " + tempCurrent + " Current: " + current );
                         continue;
                     }
 
@@ -176,7 +181,6 @@ class Lexer {
                     }
                     TokenType tempType = keywords.get(window);
                     if (tempType != null) {
-                        System.err.println(window);
                         tempToken = new Token(tempType, window, window, line);
                         validWindow = window;
                     }
@@ -194,9 +198,7 @@ class Lexer {
                     addToken(tempToken.type, validWindow);
                     start = current;
                     current = temp;
-                    System.out.println("window: "+window + " Start: " + start + " tempCurrent: " + tempCurrent + " Current: " + current );
 
-                    System.out.println(tempToken.lexeme);
                 }
             }
         } else {
@@ -206,7 +208,6 @@ class Lexer {
     }
 
     private void number() {
-        System.out.println("------entered number function   "+start + " " + current);
         while (isDigit(getNextChar()))
             moveToNextChar();
 
@@ -218,31 +219,37 @@ class Lexer {
             while (isDigit(getNextChar()))
                 moveToNextChar();
         }
-        System.out.println(source.substring(start, current));
-        System.out.println("********** finishing number function   "+start + " " + current);
+        
         addToken(TokenType.NUMBER, Double.parseDouble(source.substring(start, current)));
     }
 
     private void string() {
         while (getNextChar() != '"' && !isAtEnd()) {
-            if (getNextChar() == '\n')
-                line++;
+            if (getNextChar() == '\n') {
+                // Report unterminated string and exit the function
+                addToken(TokenType.ERROR, source.substring(start, current));
+
+                line++; // Increment line number because of the newline character
+                return; // Exit the function to avoid adding a STRING token
+            }
             moveToNextChar();
         }
 
+        // Check if the end of the file is reached without finding a closing quote
         if (isAtEnd()) {
-            handleError(start, current, line, "Unterminated string.");
-            return;
+            addToken(TokenType.ERROR, source.substring(start, current));
+            return; // Exit the function to avoid adding a STRING token
         }
 
-        // The closing ".
+        // Consume the closing quote
         moveToNextChar();
 
-        // Trim the surrounding quotes.
+        // Trim the surrounding quotes and add the string token
+        // Note: Substring should start at start + 1 and end at current - 1 to exclude quotes
         String value = source.substring(start + 1, current - 1);
         addToken(TokenType.STRING, value);
+}
 
-    }
 
     private boolean match(char expected) {
         if (isAtEnd())
@@ -299,15 +306,6 @@ class Lexer {
 
     }
 
-    private void handleError(int start, int current, int line, String description) {
-
-        if (description == "Unterminated string") {
-            System.out.println("ERROR: Unterminated string  found at line: " + line);
-        } else {
-            String text = source.substring(start, current);
-            System.out.println("Unexpected token (" + text + ")" + "found at line" + line);
-        }
-
-    }
+    
 
 }
