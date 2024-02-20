@@ -23,19 +23,20 @@ public class Compiler {
             for (Token token : tokens) {
                 if (token.type == TokenType.EOP) {
                     programCount++;
-                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at ("
+                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at line ("
                             + token.line + ")");
-                    System.out.println("INFO " + "Lexer - " + "Lex " + "completed with " + errorCount + "errors");
+                    System.out.println("INFO " + "Lexer - " + "Lex " + "completed with " + errorCount + " errors");
                     System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
                     errorCount = 0;
                 } else if (token.type == TokenType.ERROR) {
                     errorCount++;
                     System.out.println("ERROR" + " Lexer - " + token.type + " found at line : " + token.line
-                            + ": Unrecognized Token: " + token.lexeme);
+                            + " : Unrecognized Token: " + token.lexeme);
                 } else
-                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at ("
+                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at line ("
                             + token.line + ")");
             }
+            System.out.println("------END of FILE------");
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
         }

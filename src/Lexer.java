@@ -22,7 +22,6 @@ class Lexer {
             lex();
         }
 
-        tokens.add(new Token(TokenType.EOF, "", null, line));
         return tokens;
     }
 
@@ -93,7 +92,9 @@ class Lexer {
                 break;
 
             case ' ':
+                break;
             case '\r':
+                break;
             case '\t':
                 // Ignore whitespace.
                 break;
@@ -110,6 +111,7 @@ class Lexer {
                     number();
 
                 } else if (isAlpha(c)) {
+                    
                     identifier();
 
                 } else {
@@ -134,6 +136,8 @@ class Lexer {
         keywords.put("true", TokenType.TRUE);
         keywords.put("var", TokenType.VAR);
         keywords.put("while", TokenType.WHILE);
+        keywords.put("int", TokenType.INT_TYPE_KEYWORD);
+        keywords.put("string", TokenType.STRING_TYPE_KEYWORD);
     }
 
     private void identifier() {

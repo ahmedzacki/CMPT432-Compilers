@@ -14,7 +14,7 @@ public enum TokenType {
 
         // Keywords.
         AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
-    PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE, EOF,
+    PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE, INT_TYPE_KEYWORD, STRING_TYPE_KEYWORD,
         
     // Error handling TokenType
     ERROR
