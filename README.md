@@ -24,5 +24,5 @@ Navigate to the src directory and compile the compiler using the following comma
 
 ```bash
 javac Compiler.java
-java Compiler <name of the file you want to compile (files should be places inside the testcases folder)>
+java Compiler <name of the file you want to compile (place your file in the testcases folder)>
 ```
