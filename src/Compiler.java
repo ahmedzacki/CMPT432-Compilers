@@ -9,6 +9,9 @@ public class Compiler {
 
         String filePath = "../input.txt";
 
+        int errorCount = 0;
+        int programCount = 1;
+
         try {
             // Reading the entire file as a single String
             String source = new String(Files.readAllBytes(Paths.get(filePath)));
@@ -16,14 +19,29 @@ public class Compiler {
             Lexer scanner = new Lexer(source);
             List<Token> tokens = scanner.scanTokens();
             // Now let's print the tokens
+            System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
             for (Token token : tokens) {
-                System.out.println("   " + token.type + "  --->  " +  token.lexeme + "  found at line: "+ token.line);
+                if (token.type == TokenType.EOP) {
+                    programCount++;
+                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at ("
+                            + token.line + ")");
+                    System.out.println("INFO " + "Lexer - " + "Lex " + "completed with " + errorCount + "errors");
+                    System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
+                    errorCount = 0;
+                } else if (token.type == TokenType.ERROR) {
+                    errorCount++;
+                    System.out.println("ERROR" + " Lexer - " + token.type + " found at line : " + token.line
+                            + ": Unrecognized Token: " + token.lexeme);
+                } else
+                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at ("
+                            + token.line + ")");
             }
-            
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
         }
-        
+
     }
-  
+
 }
+
+    
