@@ -7,7 +7,7 @@ public class Compiler {
     public static void main(String[] args) throws Exception {
         System.out.println("Compiler started.....");
 
-        String filePath = "input.txt";
+        String filePath = "../input.txt";
 
         try {
             // Reading the entire file as a single String
