@@ -1,20 +1,20 @@
 public enum TokenType {
         // Single-character tokens.
-        LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
-        COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR, EOP,
+        LEFT_PAREN, RIGHT_PAREN, OPEN_BLOCK, CLOSE_BLOCK,
+    COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR, EOP, SPACE,
 
         // One or two character tokens.
-        BANG, BANG_EQUAL,
-        EQUAL, EQUAL_EQUAL,
-        GREATER, GREATER_EQUAL,
-        LESS, LESS_EQUAL,
+        NOT, NOT_EQUAL,
+        ASSIGN, EQUAL,
+        GREATER_THAN, GREATER_THAN_OR_EQUAL,
+        LESS_THAN, LESS_THAN_OR_EQUAL,
 
         // Literals.
-        IDENTIFIER, STRING, NUMBER,
+        IDENTIFIER, STRING, NUMBER, BOOLEAN,
 
         // Keywords.
-        AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
-    PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE, INT_TYPE_KEYWORD, STRING_TYPE_KEYWORD,
+        AND, CLASS, ELSE, FALSE, FOR, IF, OR,
+    PRINT, RETURN, SUPER, THIS, TRUE, WHILE, INT_KEYWORD, STRING_KEYWORD,
         
     // Error handling TokenType
     ERROR

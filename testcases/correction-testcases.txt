@@ -1,0 +1,4 @@
+{
+boolean d
+d = ("string" != "string")
+}$

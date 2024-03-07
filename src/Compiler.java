@@ -27,13 +27,21 @@ public class Compiler {
             List<Token> tokens = scanner.scanTokens();
             // Now let's print the tokens
             System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
-            for (Token token : tokens) {
+            for (int i = 0; i < tokens.size(); i++) {
+                Token token = tokens.get(i);
                 if (token.type == TokenType.EOP) {
                     programCount++;
-                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at line ("
+                    System.out.println("Debug Lexer - " + token.type + " [ " + token.lexeme + " ] found at line ("
                             + token.line + ")");
-                    System.out.println("INFO " + "Lexer - " + "Lex " + "completed with " + errorCount + " errors");
-                    System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
+                    System.out.println("INFO Lexer - Lex completed with " + errorCount + " errors");
+
+                    // Check if this EOP token is the last token by comparing index positions
+                    if (i != tokens.size() - 1) {
+                        // The current token (EOP) is not last token in the whole file
+                        // Then we start preparing for lexing the next program
+                        System.out.println();
+                        System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
+                    }
                     errorCount = 0;
                 } else if (token.type == TokenType.ERROR) {
                     errorCount++;
@@ -43,6 +51,7 @@ public class Compiler {
                     System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at line ("
                             + token.line + ")");
             }
+            System.out.println();
             System.out.println("------END of FILE------");
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());

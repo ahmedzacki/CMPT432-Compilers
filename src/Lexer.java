@@ -35,10 +35,10 @@ class Lexer {
                 addToken(TokenType.RIGHT_PAREN);
                 break;
             case '{':
-                addToken(TokenType.LEFT_BRACE);
+                addToken(TokenType.OPEN_BLOCK);
                 break;
             case '}':
-                addToken(TokenType.RIGHT_BRACE);
+                addToken(TokenType.CLOSE_BLOCK);
                 break;
             case ',':
                 addToken(TokenType.COMMA);
@@ -59,16 +59,16 @@ class Lexer {
                 addToken(TokenType.STAR);
                 break;
             case '!':
-                addToken(match('=') ? TokenType.BANG_EQUAL : TokenType.BANG);
+                addToken(match('=') ? TokenType.NOT_EQUAL : TokenType.NOT);
                 break;
             case '=':
-                addToken(match('=') ? TokenType.EQUAL_EQUAL : TokenType.EQUAL);
+                addToken(match('=') ? TokenType.EQUAL : TokenType.ASSIGN);
                 break;
             case '<':
-                addToken(match('=') ? TokenType.LESS_EQUAL : TokenType.LESS);
+                addToken(match('=') ? TokenType.LESS_THAN_OR_EQUAL : TokenType.LESS_THAN);
                 break;
             case '>':
-                addToken(match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
+                addToken(match('=') ? TokenType.GREATER_THAN_OR_EQUAL : TokenType.GREATER_THAN);
                 break;
                 // handle comments here
             case '/':
@@ -134,10 +134,11 @@ class Lexer {
         keywords.put("super", TokenType.SUPER);
         keywords.put("this", TokenType.THIS);
         keywords.put("true", TokenType.TRUE);
-        keywords.put("var", TokenType.VAR);
         keywords.put("while", TokenType.WHILE);
-        keywords.put("int", TokenType.INT_TYPE_KEYWORD);
-        keywords.put("string", TokenType.STRING_TYPE_KEYWORD);
+        keywords.put("int", TokenType.INT_KEYWORD);
+        keywords.put("string", TokenType.STRING_KEYWORD);
+        keywords.put("boolean", TokenType.BOOLEAN);
+
     }
 
     private void identifier() {
@@ -286,6 +287,7 @@ class Lexer {
             return '\0';
         return source.charAt(current + 1);
     }
+
 
     private boolean isDigit(char c) {
         return c >= '0' && c <= '9';
