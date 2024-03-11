@@ -16,6 +16,7 @@ public enum TokenType {
         AND, CLASS, ELSE, FALSE, FOR, IF, OR,
     PRINT, RETURN, SUPER, THIS, TRUE, WHILE, INT_KEYWORD, STRING_KEYWORD,
         
-    // Error handling TokenType
-    ERROR
+    // Error handling TokenTypes
+    SYNTAX_ERROR, TYPE_ERROR, RUNTIME_ERROR, UNEXPECTED_TOKEN, UNDEFINED_VARIABLE_ERROR, UNCLOSED_QUOTATION_ERROR
+
     }

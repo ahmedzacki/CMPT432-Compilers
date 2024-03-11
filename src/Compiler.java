@@ -12,7 +12,7 @@ public class Compiler {
             return;
         }
 
-        String testcaseFolder = "testcases"; 
+        String testcaseFolder = "testcases";
         String fileName = args[0]; // Reading file name from command line argument
         String filePath = "../" + testcaseFolder + "/" + fileName; // Constructing the file path for the test case
 
@@ -37,24 +37,37 @@ public class Compiler {
 
                     // Check if this EOP token is the last token by comparing index positions
                     if (i != tokens.size() - 1) {
-                        // The current token (EOP) is not last token in the whole file
-                        // Then we start preparing for lexing the next program
+                        // If the current EOP token is not the last in the file, prepare for lexing the next program.
                         System.out.println();
                         System.out.println("INFO Lexer - Lexing program { " + programCount + " }");
                     }
+
                     errorCount = 0;
-                } else if (token.type == TokenType.ERROR) {
-                    errorCount++;
-                    System.out.println("ERROR" + " Lexer - " + token.type + " found at line : " + token.line
-                            + " : Unrecognized Token: " + token.lexeme);
                 } else
-                    System.out.println("Debug" + " Lexer - " + token.type + " [ " + token.lexeme + " ] found at line ("
-                            + token.line + ")");
+                    handleRest(token, errorCount);
             }
+            
             System.out.println();
             System.out.println("------END of FILE------");
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
         }
+
     }
+    // this function handles the rest of the token types including errors
+    public static void handleRest(Token token, int errorCount){
+            // Here `token` has properties: type, line, lexeme
+            if (token.type == TokenType.SYNTAX_ERROR || token.type == TokenType.TYPE_ERROR ||
+                token.type == TokenType.RUNTIME_ERROR || token.type == TokenType.UNEXPECTED_TOKEN ||
+                token.type == TokenType.UNDEFINED_VARIABLE_ERROR || token.type == TokenType.UNCLOSED_QUOTATION_ERROR) {
+                
+                errorCount++;
+                
+                System.out.println("ERROR" + " Lexer - " + token.type + " found at line : " + token.line + " : Error => ( " + token.lexeme + " )");
+
+            } else {
+                System.out.println("Debug Lexer - " + token.type + " [ " + token.lexeme + " ] found at line (" + token.line + ")");
+            }
+
+        }
 }

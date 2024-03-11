@@ -115,7 +115,7 @@ class Lexer {
                     identifier();
 
                 } else {
-                    addToken(TokenType.ERROR);
+                    addToken(TokenType.UNEXPECTED_TOKEN);
                     break;
                 }
         }
@@ -231,18 +231,15 @@ class Lexer {
     private void string() {
         while (getNextChar() != '"' && !isAtEnd()) {
             if (getNextChar() == '\n') {
-                // Report unterminated string and exit the function
-                addToken(TokenType.ERROR, source.substring(start, current));
-
                 line++; // Increment line number because of the newline character
-                return; // Exit the function to avoid adding a STRING token
             }
             moveToNextChar();
         }
 
         // Check if the end of the file is reached without finding a closing quote
         if (isAtEnd()) {
-            addToken(TokenType.ERROR, source.substring(start, current));
+            // Report unterminated string and exit the function
+            addToken(TokenType.UNCLOSED_QUOTATION_ERROR, source.substring(start, current));
             return; // Exit the function to avoid adding a STRING token
         }
 
@@ -253,6 +250,7 @@ class Lexer {
         // Note: Substring should start at start + 1 and end at current - 1 to exclude quotes
         String value = source.substring(start + 1, current - 1);
         addToken(TokenType.STRING, value);
+
 }
 
 
@@ -306,12 +304,25 @@ class Lexer {
     }
 
     private void addToken(TokenType type, Object literal) {
-
         String text = source.substring(start, current);
-        tokens.add(new Token(type, text, literal, line));
 
+        // Count the number of line breaks in this string
+        int lineBreakCount = 0;
+        for (int i = 0; i < text.length(); i++) {
+            if (text.charAt(i) == '\n') {
+                lineBreakCount++;
+            }
+        }
+
+        // Remove all line break characters
+        text = text.replace("\n", "");
+
+        // Adjust the line for the token based on the number of line breaks in the string
+        int adjustedLine = line - lineBreakCount;
+
+        // Create and add the new token with the adjusted line
+        tokens.add(new Token(type, text, literal, adjustedLine));
     }
 
-    
 
 }
