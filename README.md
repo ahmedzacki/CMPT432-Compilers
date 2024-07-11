@@ -1,4 +1,4 @@
-## Compiler-project
+## Compiler-project-Java
 
 This is a custom compiler project designed for educational purposes. It focuses on the lexical analysis of source code according to the grammar specified [here](https://www.labouseur.com/courses/compilers/grammar.pdf). This project is the first step in building a complete compiler, focusing solely on lexing input source code with detailed error and warning messages.
 
