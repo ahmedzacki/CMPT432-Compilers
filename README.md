@@ -12,15 +12,21 @@ This is a custom compiler project designed for educational purposes. It focuses 
 - Java JDK 8 or newer.
 - The source code to be compiled must adhere to the specified grammar and be provided as input.
 
+- ## Project Status
+The project is still in progress. The first part (Project One) has been completed, and the other parts are yet to be done.
+
+## Credits
+This project is developed following the guidelines provided by my professor, [Alan Labouseur](https://www.labouseur.com/). The final testing of the compiler will be done on an operating system developed by Kevin Mirsky.
+
 The project will consist of the following 4 parts:
 
-### Part One: Build an interesting lexer.
+## Part One: Build an interesting lexer.
 
 Step 1: Making tokens with your Lexer
 
 Step 2: More token making, now with Finite Automata
 
-### Part Two: Build an interesting parser and CST.
+## Part Two: Build an interesting parser and CST.
 
 Step 3: Turning tokens into sentences with your Parser
 
@@ -28,7 +34,7 @@ Step 4: Analyzing Grammars
 
 Step 5: Building Syntax Trees both Concrete and Abstract
 
-### Part Three: Adding an AST and Semantic Analysis.
+## Part Three: Adding an AST and Semantic Analysis.
 
 Step 5: Building Syntax Trees both Concrete and Abstract
 
@@ -36,7 +42,7 @@ Step 6: Symbol tables and you (and your compiler)
 
 Step 7: Semantic Analysis: Checking scope and type
 
-### Part Four: A full compiler, with 6502a code generation.
+## Part Four: A full compiler, with 6502a code generation.
 
 Step 8: Generating Code
 
