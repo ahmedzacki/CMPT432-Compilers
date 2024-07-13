@@ -48,8 +48,6 @@ The project will consist of the following 4 parts:
 
 - Step 9: Manipulating Grammars
 
-Here are some Operating Systems on which to test your generated code: https://www.labouseur.com/commondocs/operating-systems/CyberCore/index.html
-
 ## Getting Started
 
 ### Setting Up Your Environment
