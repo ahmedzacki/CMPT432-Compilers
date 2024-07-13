@@ -16,7 +16,7 @@ This is a custom compiler project designed for educational purposes. It focuses 
 The project is still in progress. The first part (Project One) has been completed, and the other parts are yet to be done.
 
 ## Credits
-This project is developed following the guidelines provided by my professor, [Alan Labouseur](https://www.labouseur.com/). The final testing of the compiler will be done on an operating system developed by Kevin Mirsky.
+This project is developed following the guidelines provided by my professor, [Alan Labouseur](https://www.labouseur.com/). The final testing of the compiler will be done on an operating system here https://www.labouseur.com/commondocs/operating-systems/CyberCore/index.html.
 
 The project will consist of the following 4 parts:
 
